@@ -48,8 +48,23 @@ namespace NameChecker
             }
             catch
             {
-                Console.ReadKey();
-                return;
+                string currentOwner = client.GetStringAsync($"https://api.mojang.com/users/profiles/minecraft/{name}")
+                    .Result;
+
+                if (currentOwner == "")
+                {
+                    Console.Title = $"{name} is available!";
+                    Console.WriteLine("The name is available!");
+                    Console.ReadKey();
+                    return;
+                }
+                else
+                {
+                    Console.Title = $"{name} is not available :(";
+                    Console.WriteLine("The name is not available :(");
+                    Console.ReadKey();
+                    return;
+                }
             }
         }
 
